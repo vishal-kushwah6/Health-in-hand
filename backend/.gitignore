@@ -1,0 +1,21 @@
+# Go build files
+bin/
+build/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test
+*.test
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
