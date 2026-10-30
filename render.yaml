@@ -1,26 +1,27 @@
-# Render Blueprint for the Go API. Put this file at the ROOT of your Git repository.
 services:
   - type: web
-    name: fitness-api            # becomes https://fitness-api.onrender.com (Render adds a suffix if the name is taken)
+    name: health-in-hand-api
     runtime: go
     plan: free
-    rootDir: backend             # the folder that contains go.mod and main.go. Delete this line if your repo root IS the Go project
-    buildCommand: go build -tags netgo -ldflags '-s -w' -o app
+    rootDir: backend
+
+    buildCommand: go build -tags netgo -ldflags '-s -w' -o app ./cmd/api
     startCommand: ./app
+
     healthCheckPath: /health
-    autoDeploy: true             # redeploy on every push to the linked branch
+    autoDeploy: true
+
     envVars:
-      # Render sets PORT itself (default 10000); the server already listens on it.
       - key: GIN_MODE
         value: release
       - key: MONGO_DB_NAME
         value: fitness_app
-      # Uploads and the AI call take longer than the 5s default
       - key: READ_TIMEOUT
         value: 30s
       - key: WRITE_TIMEOUT
         value: 60s
-      # Secrets: Render asks for these when you create the Blueprint (never put real values in this file)
+      - key: IDLE_TIMEOUT
+        value: 60s
       - key: MONGO_URI
         sync: false
       - key: CLERK_SECRET_KEY
